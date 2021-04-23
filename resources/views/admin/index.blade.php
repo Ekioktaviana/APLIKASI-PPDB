@@ -1,9 +1,10 @@
 @extends('layouts.main')
+
 @section('title', 'SMK WIKRAMA 1 GARUT')
 
 @section('content')
 <div class="container">
-
+                @csrf
                 <div class="row">
                         <div class="col-md-12 mt-3">
                             <div class="container-fluid">
@@ -20,7 +21,7 @@
                                     @endif
                                     <div class="card-body">
                                         <div class="table-responsive">
-                                            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                            <table class="table table-bordered" id="example" width="100%" cellspacing="0">
                                                 <thead>
                                                     <tr class="text-center">
                                                         <th>NISN</th>
@@ -34,20 +35,37 @@
                                                     <tr class="text-center">
                                                         <td>{{$dt->nisn}}</td>
                                                         <td>{{$dt->name}}</td>
-                                                        <td>
+                                                        {{-- <td> --}}
                                                         @if($dt->status=='diterima')
-                                                            Lolos
+                                                            <td bgcolor="#33cc66">
+                                                                <b> Lolos</b>
+                                                            </td>
                                                         @elseif($dt->status =='ditolak')
-                                                            Tidak Lolos
-                                                        @else
-                                                            Belum ditanggapi
-                                                        @endif
+                                                        <td bgcolor="#cb343a">
+                                                            <b> Tidak Lolos </b>
                                                         </td>
+                                                        @elseif ($dt->status == 'perbaiki')
+                                                        <td bgcolor="#757a8a">
+                                                            <b> Dalam Perbaikan </b>
+                                                        </td>
+                                                        @else
+                                                        <td>
+                                                            Belum ditanggapi
+                                                        </td>
+                                                        @endif
+                                                        {{-- </td> --}}
                                                         <td>
                                                             <div class="btn-group">
-                                                                <a href="#" class="btn btn-warning">Detail</a>
-                                                                <a href="/admin/terima/{{$dt->id}}" class="btn btn-primary" onclick="return confirm('Apakah anda yakin ingin menerima siswa ini?')">Terima</a>
-                                                                <a href="/admin/tolak/{{$dt->id}}" class="btn btn-danger" onclick="return confirm('Apakah anda yakin ingin menolak siswa ini?')">Tolak</a>                            
+                                                                {{-- <a href="/admin/detail/{{ $dt->id }}" class="btn btn-secondary btn-sm">Detail</a> --}}
+                                                                {{-- @if ($dt->status=='belum')
+                                                                <a href="/admin/terima/{{$dt->id}}" class="btn btn-primary btn-sm" onclick="return confirm('Apakah anda yakin ingin menerima siswa ini?')">Terima</a>
+                                                                <a href="/admin/tolak/{{$dt->id}}" class="btn btn-danger btn-sm" onclick="return confirm('Apakah anda yakin ingin menolak siswa ini?')">Tolak</a>                            
+                                                                
+                                                                @endif --}}
+                                                                    {{-- @if (sizeof($data) >= 1) --}}
+                                                                        <a href="{{ route('admin.show',$dt->id)}}" class="btn btn-secondary btn-sm">Detail</a>
+                                                                        
+                                                                    {{-- @endif --}}
                                                             </div>
                                                         </td>
                                                     </tr>
@@ -64,4 +82,10 @@
                
 
 </div>
+
+<script>
+    $(document).ready(function() {
+        $('#example').DataTable();
+    } );
+</script>
 @endsection

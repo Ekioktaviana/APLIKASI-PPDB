@@ -4,7 +4,6 @@
 @section('content')
 
 <div class="row">
-    @csrf
         <div class="col-md-12 mt-3">
             <div class="container-fluid">
 
@@ -36,18 +35,16 @@
                                     <tr class="text-center">
                                         @if ($document != null)
                                             <td>{{$document->nisn}}</td>
-                                            <td><img src="{{ Storage::url($document->kk) }}" width="80" height="80"></td>
-                                            <td><img src="{{ Storage::url($document->akte) }}" width="80" height="80"></td>
-                                            <td><img src="{{ Storage::url($document->skhun) }}" width="80" height="80"></td>
-                                            <td><img src="{{ Storage::url($document->ijazah) }}" width="80" height="80"></td>
+                                            <td><img src="http://localhost:8000/images/{{$document->kk}}" width="80" height="80"></td>
+                                            <td><img src="http://localhost:8000/images/{{$document->akte}}" width="80" height="80"></td>
+                                            <td><img src="http://localhost:8000/images/{{$document->skhun}}" width="80" height="80"></td>
+                                            <td><img src="http://localhost:8000/images/{{$document->ijazah}}" width="80" height="80"></td>
                                             <td>
                                                 <span>
                                                     @if(Auth::user()->status == 'diterima')
                                                         Selamat Anda Diterima di SMK WIKRAMA 1 GARUT
                                                     @elseif (Auth::user()->status == 'ditolak')
                                                         Maaf Anda Ditolak di SMK WIKRAMA 1 GARUT
-                                                    @elseif (Auth::user()->status == 'perbaiki')
-                                                        Mohon Perbaiki Document Yang Telah Anda Kirim
                                                     @else
                                                         Belum Ditanggapi
                                                     @endif

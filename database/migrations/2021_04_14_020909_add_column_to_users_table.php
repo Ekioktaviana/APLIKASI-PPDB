@@ -15,7 +15,7 @@ class AddColumnToUsersTable extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             $table->boolean('is_admin')->nullable()->after('id'); //nambah table  tipe data boolean yang boleh kosong
-            $table->enum('status', ['diterima', 'ditolak', 'belum'])->default('belum');
+            $table->enum('status', ['diterima', 'ditolak', 'belum','perbaiki'])->default('belum');
         });
     }
 

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Document;
 use Auth;
 use DB;
 class AdminController extends Controller
@@ -18,24 +19,32 @@ class AdminController extends Controller
         if(Auth::user()->is_admin == 1)
         {
             $data = DB::select("SELECT * FROM users where name!= 'admin'");
-            return view('admin.index', compact('data')); //jalankan view folder admin file index
+            // $document = Document::where('nisn', $data->nisn)->first();
+            // dd($data);
+
+            return view('admin.index', compact('data', )); //jalankan view folder admin file index
         }
         return view('home');
         
     }
+
 
      public function terima()
     {
         $data = DB::select("select * from users where id != 1 and status = 'diterima' ");
         return view('admin.diterima', compact('data'));
     }
+
+
      public function tolak()
     {
         $data = DB::select("select * from users where id != 1 and status = 'ditolak' ");
         return view('admin.ditolak', compact('data'));
     }
 
+
     public function diterima($id){
+        // dd($id);
         $terima = User::where('id', $id)->update(['status'=>'diterima']);
 
         if($terima){
@@ -44,6 +53,8 @@ class AdminController extends Controller
             return redirect('/admin')->with('status', 'Siswa Gagal Diterima');
         }
     }
+
+
     public function ditolak($id){
         $terima = User::where('id', $id)->update(['status'=>'ditolak']);
 
@@ -51,6 +62,18 @@ class AdminController extends Controller
             return redirect('/admin')->with('status', ' Siswa Berhasil ditolak');
         }else{
             return redirect('/admin')->with('status', 'Siswa Gagal ditolak');
+        }
+    }
+
+
+    public function perbaiki($id)
+    {
+        // dd($id);
+        $perbaiki = User::where('id', $id)->update(['status'=>'perbaiki']);
+        if($perbaiki){
+            return redirect('/admin');
+        }else{
+            return redirect('/admin')->with('status','Siswa Ditolak');
         }
     }
 
@@ -84,7 +107,13 @@ class AdminController extends Controller
      */
     public function show($id)
     {
-        //
+        $data = DB::select("SELECT * FROM users where name!= 'admin'");
+            // return view('admin.index', compact('data'));
+        $data = User::where('id', $id)->first();
+        $document = Document::where('nisn', $data->nisn)->first();
+        // dd($data);
+
+        return view('admin.show', compact('document','data'));
     }
 
     /**
